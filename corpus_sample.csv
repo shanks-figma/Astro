@@ -1,0 +1,21 @@
+planet,sign,house,aspect_from,domains,effect,source_text,is_positive,strength
+Saturn,Capricorn,1,,career|general,"Native gains perseverance and authority. Rise in career after age 35.",BPHS Ch.3 v.14,true,definitive
+Saturn,,7,,marriage|relationship,"Delay in marriage. Partner may be older or from a different background.",Phaladeepika Ch.7 v.4,false,moderate
+Jupiter,Sagittarius,9,,wealth|spiritual,"Strong Dharma — fortune through ethical conduct. Father is influential.",BPHS Ch.8 v.22,true,definitive
+Jupiter,,5,,career|wealth,"Gajakesari potential. Intelligence and good progeny. Success in education.",Saravali Ch.16 v.8,true,moderate
+Mars,Aries,1,,career|health,"High energy and ambition. Prone to anger and accidents. Leadership qualities.",BPHS Ch.5 v.6,true,moderate
+Mars,,7,,marriage,"Mangal Dosha — tension in marriage. Partner should also have Mars in key houses.",Phaladeepika Ch.7 v.9,false,conditional
+Moon,Cancer,4,,relationship|general,"Emotional security from home. Strong bond with mother. Intuitive nature.",BPHS Ch.6 v.3,true,definitive
+Moon,,6,,health,"Mind is troubled by enemies or illness. Tendency toward anxiety. Meditation helps.",Saravali Ch.14 v.2,false,moderate
+Rahu,,10,,career,"Unconventional career path. Fame through technology, foreign connections, or media.",BPHS Ch.24 v.18,,conditional
+Ketu,,12,,spiritual,"Strong past-life spiritual merit. Moksha potential. Foreign residence possible.",BPHS Ch.25 v.7,true,moderate
+Sun,Leo,1,,career|general,"Leadership and authority. Government or administrative career favoured.",BPHS Ch.4 v.2,true,definitive
+Sun,,8,,wealth|health,"Obstacles to father. Hidden wealth possible. Research or occult inclination.",Saravali Ch.12 v.5,false,conditional
+Mercury,Gemini,3,,career|wealth,"Excellent communication. Writing, journalism, or business skills. Siblings supportive.",BPHS Ch.7 v.11,true,definitive
+Venus,Taurus,7,,marriage|wealth,"Attractive and wealthy spouse. Marriage brings prosperity. Love of beauty.",Phaladeepika Ch.8 v.3,true,definitive
+Venus,,6,,marriage,"Delay in marriage or health issues for spouse. Service-oriented partnerships.",Saravali Ch.15 v.4,false,moderate
+Saturn,Scorpio,8,,wealth|spiritual,"Long life indicated. Research, mining, or insurance career. Hidden wealth.",BPHS Ch.11 v.9,,conditional
+Jupiter,Cancer,4,,relationship|wealth,"Exalted Jupiter — wisdom and prosperity from family. Dharmakarmadhipati Yoga potential.",BPHS Ch.8 v.14,true,definitive
+Mars,Capricorn,10,,career,"Exalted Mars — exceptional drive in career. Engineering or defence favoured.",BPHS Ch.5 v.18,true,definitive
+Moon,Scorpio,8,,health|spiritual,"Emotional intensity. Hidden fears. Transformation through crisis. Occult interest.",Saravali Ch.14 v.6,false,moderate
+Mercury,,12,,career|spiritual,"Losses through communication or abroad. Spiritual writing. Foreign language skills.",BPHS Ch.7 v.19,,conditional
