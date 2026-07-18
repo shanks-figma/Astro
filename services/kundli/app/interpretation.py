@@ -296,16 +296,6 @@ def generate_reading_with_groq(
         
     # 1. Fetch RAG rules
     rag_data = get_rag_rules_for_reading(chart, query_type, domain, ask_text)
-    
-    if rag_data["no_rules"]:
-        return {
-            "title": "Rare Configuration",
-            "summary": "Your birth chart has a unique planetary configuration.",
-            "body": "Your chart has a rare configuration — detailed reading coming soon.",
-            "remedy": "Engage in regular meditation and maintain mindful daily practices.",
-            "sources": []
-        }
-        
     # 2. Format inputs for Prompt
     # Format Planets
     planets_str = []
@@ -355,7 +345,7 @@ def generate_reading_with_groq(
     system_prompt = f"""You are an expert Vedic astrology (Jyotish) interpreter. Your task is to generate a personalized reading based strictly on the user's birth chart details and the provided classical rules.
 
 CONSTRAINTS & RULES:
-1. Base your interpretations strictly on the provided retrieved classical rules. Do not fabricate, hallucinate, or add external Vedic combinations from your training data.
+1. Base your interpretations primarily on the provided retrieved classical rules. If no classical rules are provided in the prompt, you may interpret the chart details based on standard classical Vedic principles, keeping a supportive and cautious tone.
 2. Maintain a balanced, supportive, and objective tone.
 3. NEVER predict death, terminal/serious illness, accidents, or irreversible misfortune. If a rule points to negative effects, rephrase it constructively using warning or caution terminology.
 4. Use probability language, such as 'this period may indicate', 'there could be inclinations toward', or 'it is favorable to'. Never say 'this will definitely cause' or make absolute predictions.
