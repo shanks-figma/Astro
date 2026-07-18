@@ -105,13 +105,18 @@ def get_embedding(text: str) -> Optional[List[float]]:
                     print(f"HF Model is loading, waiting {est_time}s (retry {i+1}/{retries})...")
                     time.sleep(min(est_time, 10))
                     continue
+                elif res.status_code in (401, 403) and "Authorization" in headers:
+                    print(f"HF Token error ({res.status_code}). Retrying anonymously...")
+                    headers = {}
+                    continue
                 else:
                     print(f"HF Inference API error ({res.status_code}): {res.text}")
             except Exception as e:
                 print(f"HF Inference API exception: {e}")
             
             time.sleep(2)
-        print("HF Inference API failed after all retries. Falling back to local model.")
+        print("HF Inference API failed after all retries. Local fallback disabled to prevent OOM crash.")
+        return None
             
     # Local fallback
     embedding_model = get_embedding_model()
