@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED=1 \
     HF_HOME=/tmp/hf_cache
 
 # Set working directory
-WORKDIR /app
+WORKDIR /code
 
 # Install system dependencies required for compilation (e.g. pyswisseph, timezonefinder)
 RUN apt-get update && apt-get install -y --no-install-recommends \
