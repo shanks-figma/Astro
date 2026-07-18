@@ -73,8 +73,10 @@ def get_embedding(text: str) -> Optional[List[float]]:
     """
     Retrieves the embedding vector. If USE_HF_INFERENCE_API=true, sends an HTTP request
     to Hugging Face. Otherwise, loads SentenceTransformer locally.
+    Includes a retry loop to handle Hugging Face 503 'Model is loading' events safely.
     """
     import os
+    import time
     import requests
     
     use_api = os.getenv("USE_HF_INFERENCE_API", "false").lower() == "true"
@@ -84,15 +86,32 @@ def get_embedding(text: str) -> Optional[List[float]]:
         headers = {}
         if token:
             headers["Authorization"] = f"Bearer {token}"
-        try:
-            res = requests.post(api_url, headers=headers, json={"inputs": text}, timeout=10)
-            if res.status_code == 200:
-                data = res.json()
-                if isinstance(data, list) and len(data) > 0:
-                    return data
-            print(f"HF Inference API error ({res.status_code}): {res.text}. Falling back to local.")
-        except Exception as e:
-            print(f"HF Inference API exception: {e}. Falling back to local.")
+            
+        retries = 6
+        delay = 6
+        for i in range(retries):
+            try:
+                res = requests.post(api_url, headers=headers, json={"inputs": text}, timeout=10)
+                if res.status_code == 200:
+                    data = res.json()
+                    if isinstance(data, list) and len(data) > 0:
+                        return data
+                elif res.status_code == 503:
+                    try:
+                        err_json = res.json()
+                        est_time = err_json.get("estimated_time", delay)
+                    except:
+                        est_time = delay
+                    print(f"HF Model is loading, waiting {est_time}s (retry {i+1}/{retries})...")
+                    time.sleep(min(est_time, 10))
+                    continue
+                else:
+                    print(f"HF Inference API error ({res.status_code}): {res.text}")
+            except Exception as e:
+                print(f"HF Inference API exception: {e}")
+            
+            time.sleep(2)
+        print("HF Inference API failed after all retries. Falling back to local model.")
             
     # Local fallback
     embedding_model = get_embedding_model()
