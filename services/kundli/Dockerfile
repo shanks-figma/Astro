@@ -34,5 +34,5 @@ COPY . .
 # Hugging Face Spaces runs on port 7860 by default
 EXPOSE 7860
 
-# Run uvicorn on port 7860
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Run uvicorn on dynamically assigned port or default to 7860
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
