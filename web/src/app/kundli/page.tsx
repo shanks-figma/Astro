@@ -265,20 +265,33 @@ export default function Onboarding() {
               </div>
             </div>
 
-            {/* Ayanamsa (Advanced settings) */}
-            <div className="space-y-1.5">
-              <label className="text-xs uppercase tracking-wider font-semibold text-white/60">Ayanamsa Calculation Mode</label>
-              <select
-                name="ayanamsa"
-                value={formData.ayanamsa}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-indigo-dark border border-white/10 text-white focus:border-gold-base/50 focus:outline-none transition-all text-sm"
-              >
-                <option value="lahiri">Lahiri (Default / Standard)</option>
-                <option value="raman">Raman (B.V. Raman offset)</option>
-                <option value="krishnamurti">Krishnamurti (KP System)</option>
-              </select>
-            </div>
+            {/* Advanced Settings Collapsible */}
+            <details className="group pt-2">
+              <summary className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold-base/80 hover:text-gold-base cursor-pointer select-none transition-colors">
+                <span className="text-sm transition-transform group-open:rotate-90">▸</span>
+                <span>Advanced Calculation Settings</span>
+                <span className="text-[10px] text-white/40 normal-case font-normal">(Ayanamsa)</span>
+              </summary>
+              <div className="mt-3 p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-semibold text-white/70">Ayanamsa Calculation System</label>
+                  <span className="text-[10px] text-gold-base/70">Lahiri recommended</span>
+                </div>
+                <select
+                  name="ayanamsa"
+                  value={formData.ayanamsa}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-lg bg-indigo-dark border border-white/10 text-white focus:border-gold-base/50 focus:outline-none transition-all text-xs"
+                >
+                  <option value="lahiri">Lahiri (Default / Standard — Recommended)</option>
+                  <option value="raman">Raman (B.V. Raman offset)</option>
+                  <option value="krishnamurti">Krishnamurti (KP System)</option>
+                </select>
+                <p className="text-[11px] text-white/40 leading-relaxed">
+                  99% of users should leave this on <strong className="text-white/60">Lahiri</strong>. Only change if your astrologer specifically uses KP System or Dr. B.V. Raman&apos;s method.
+                </p>
+              </div>
+            </details>
 
           </div>
 
