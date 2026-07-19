@@ -24,15 +24,15 @@ const PLANET_SHORT_NAMES: Record<string, string> = {
 };
 
 const PLANET_SIGNIFICATORS: Record<string, { Hindi: string; meaning: string }> = {
-  "Sun": { Hindi: "Surya", meaning: "Soul, Vitality, Leadership & Authority" },
-  "Moon": { Hindi: "Chandra", meaning: "Mind, Emotional Balance, Intuition & Peace" },
-  "Mars": { Hindi: "Mangal", meaning: "Courage, Energy, Drive & Ambition" },
-  "Mercury": { Hindi: "Budh", meaning: "Intellect, Speech, Analytical Ability & Business" },
-  "Jupiter": { Hindi: "Guru", meaning: "Wisdom, Fortune, Growth & Higher Guidance" },
-  "Venus": { Hindi: "Shukra", meaning: "Love, Wealth, Harmony, Arts & Relationships" },
-  "Saturn": { Hindi: "Shani", meaning: "Karma, Discipline, Endurance & Life Lessons" },
-  "Rahu": { Hindi: "Rahu", meaning: "Innovation, Ambition, Expansion & Desire" },
-  "Ketu": { Hindi: "Ketu", meaning: "Spiritual Awakening, Research & Intuition" },
+  "Sun": { Hindi: "Surya", meaning: "Confidence, Health, Energy & Leadership" },
+  "Moon": { Hindi: "Chandra", meaning: "Mind, Peace, Feelings & Intuition" },
+  "Mars": { Hindi: "Mangal", meaning: "Courage, Drive, Focus & Physical Power" },
+  "Mercury": { Hindi: "Budh", meaning: "Intelligence, Speech, Business & Logic" },
+  "Jupiter": { Hindi: "Guru", meaning: "Good Luck, Wisdom, Advice & Growth" },
+  "Venus": { Hindi: "Shukra", meaning: "Love, Money, Beauty & Happy Relationships" },
+  "Saturn": { Hindi: "Shani", meaning: "Hard Work, Discipline, Patience & Focus" },
+  "Rahu": { Hindi: "Rahu", meaning: "Big Ambition, New Ideas & Success" },
+  "Ketu": { Hindi: "Ketu", meaning: "Spiritual Mind, Intuition & Deep Thinking" },
 };
 
 function getChartCrucialPointers(chart: any) {
@@ -41,38 +41,38 @@ function getChartCrucialPointers(chart: any) {
 
   const lagna = chart.lagna?.sign;
   if (lagna) {
-    positives.push(`Lagna in ${lagna}: Gives a strong core vitality, natural charisma, and clear life direction.`);
+    positives.push(`Your Ascendant is ${lagna}: Gives you good vitality, confidence, and a strong personality.`);
   }
 
   chart.yogas?.forEach((y: any) => {
     if (["Gajakesari Yoga", "Budha-Aditya Yoga", "Anapha Yoga", "Ubhayachari Yoga", "Raj Yoga"].includes(y.name)) {
-      positives.push(`✨ ${y.name}: Auspicious planetary formation enhancing your reputation, mental strength, and success.`);
+      positives.push(`✨ ${y.name}: Special planet combination that brings good luck, wisdom, and success.`);
     } else if (y.name === "Mangal Dosha") {
-      cautions.push(`⚡ Mangal Alignment: High drive in partnerships—maintain open, patient communication with your spouse or partner.`);
+      cautions.push(`⚡ Mars Placement: Gives high passion—talk openly and calmly with your partner.`);
     }
   });
 
   chart.planets?.forEach((p: any) => {
     if ([1, 4, 5, 7, 9, 10].includes(p.house) && ["Jupiter", "Venus", "Mercury", "Sun"].includes(p.name)) {
-      const area = p.house === 10 ? "career & status" : p.house === 9 ? "luck & wisdom" : p.house === 5 ? "creativity & intellect" : p.house === 7 ? "partnerships" : "overall growth";
-      positives.push(`🌟 ${p.name} in House ${p.house}: Strongly positioned to support your ${area}.`);
+      const area = p.house === 10 ? "job & career" : p.house === 9 ? "luck & learning" : p.house === 5 ? "mind & creativity" : p.house === 7 ? "relationships" : "growth";
+      positives.push(`🌟 ${p.name} in House ${p.house}: Well-placed to help your ${area}.`);
     }
 
     if (p.retrograde) {
-      cautions.push(`🔄 Retrograde ${p.name} (${p.sign}): Encourages internal reflection; take time before rushing major ${p.name === "Saturn" ? "career commitments" : p.name === "Mercury" ? "agreements" : "decisions"}.`);
+      cautions.push(`🔄 Retrograde ${p.name} (${p.sign}): Teaches patience. Think carefully before taking big steps in ${p.name === "Saturn" ? "work" : p.name === "Mercury" ? "agreements" : "decisions"}.`);
     }
 
     if ([6, 8, 12].includes(p.house)) {
-      const area = p.house === 6 ? "daily routine & health" : p.house === 8 ? "transformation & research" : "rest & inner reflection";
-      cautions.push(`🛡️ ${p.name} in House ${p.house}: Brings deep resilience; focus extra attention on ${area}.`);
+      const area = p.house === 6 ? "daily health and routine" : p.house === 8 ? "handling life changes" : "getting enough rest";
+      cautions.push(`🛡️ ${p.name} in House ${p.house}: Builds inner strength. Pay attention to your ${area}.`);
     }
   });
 
   if (positives.length === 0) {
-    positives.push("Balanced planetary distribution supporting steady, long-term personal development.");
+    positives.push("Good overall planet balance supporting steady growth in life.");
   }
   if (cautions.length === 0) {
-    cautions.push("No major planetary afflictions detected; maintain regular mindful habits.");
+    cautions.push("No difficult planet positions found. Keep up simple daily healthy habits.");
   }
 
   return { 
@@ -138,50 +138,6 @@ export default function KundliChartPage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       
-      {/* Top Section: Crucial Highlights Card */}
-      <div className="glass-panel p-6 rounded-3xl border border-gold-base/20 relative overflow-hidden space-y-4">
-        <div className="flex items-center justify-between border-b border-white/5 pb-3">
-          <div>
-            <h3 className="text-lg font-bold font-heading gold-text-gradient flex items-center gap-2">
-              ✨ Key Chart Highlights & Pointers
-            </h3>
-            <p className="text-xs text-white/50">Crucial positive drivers and constructive mindfulness pointers for your birth chart.</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Positive Strengths */}
-          <div className="space-y-2 p-4 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/20">
-            <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-              🟢 Key Strengths & Fortunate Placements
-            </h4>
-            <ul className="space-y-2 text-xs text-white/80 font-light">
-              {crucialPointers.positives.map((point, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-emerald-400 select-none">•</span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Areas for Mindfulness */}
-          <div className="space-y-2 p-4 rounded-2xl bg-amber-500/[0.04] border border-amber-500/20">
-            <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-              🟡 Areas for Care & Mindful Growth
-            </h4>
-            <ul className="space-y-2 text-xs text-white/80 font-light">
-              {crucialPointers.cautions.map((point, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-amber-400 select-none">•</span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Chart Section */}
@@ -475,8 +431,52 @@ export default function KundliChartPage() {
         )}
 
       </div>
+    </div>
+
+      {/* Bottom Section: Crucial Highlights Card */}
+      <div className="glass-panel p-6 rounded-3xl border border-gold-base/20 relative overflow-hidden space-y-4">
+        <div className="flex items-center justify-between border-b border-white/5 pb-3">
+          <div>
+            <h3 className="text-lg font-bold font-heading gold-text-gradient flex items-center gap-2">
+              ✨ Key Chart Highlights & Summary Pointers
+            </h3>
+            <p className="text-xs text-white/50">A simple summary of your main strengths and helpful pointers for your birth chart.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Positive Strengths */}
+          <div className="space-y-2 p-4 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/20">
+            <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              🌟 Your Main Strengths
+            </h4>
+            <ul className="space-y-2 text-xs text-white/80 font-light">
+              {crucialPointers.positives.map((point, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-emerald-400 select-none">•</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Areas for Mindfulness */}
+          <div className="space-y-2 p-4 rounded-2xl bg-amber-500/[0.04] border border-amber-500/20">
+            <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              💡 Things to Keep in Mind
+            </h4>
+            <ul className="space-y-2 text-xs text-white/80 font-light">
+              {crucialPointers.cautions.map((point, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-amber-400 select-none">•</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
 
     </div>
-  </div>
-);
+  );
 }
