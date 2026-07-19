@@ -8,6 +8,18 @@ const ZODIAC_SIGNS = [
   "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ];
 
+const PLANET_SHORT_NAMES: Record<string, string> = {
+  "Sun": "Su",
+  "Moon": "Mo",
+  "Mars": "Ma",
+  "Mercury": "Me",
+  "Jupiter": "Ju",
+  "Venus": "Ve",
+  "Saturn": "Sa",
+  "Rahu": "Ra",
+  "Ketu": "Ke"
+};
+
 const PLANET_SIGNIFICATORS: Record<string, { Hindi: string; meaning: string }> = {
   "Sun": { Hindi: "Surya", meaning: "Soul, Vitality, Leadership & Authority" },
   "Moon": { Hindi: "Chandra", meaning: "Mind, Emotional Balance, Intuition & Peace" },
@@ -462,5 +474,6 @@ export default function KundliChartPage() {
       </div>
 
     </div>
-  );
+  </div>
+);
 }
