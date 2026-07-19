@@ -294,15 +294,29 @@ def generate_reading_with_groq(
     if not api_key:
         raise ValueError("GROQ_API_KEY is not set in environment.")
         
+    SIGN_HINDI = {
+        "Aries": "Mesha", "Taurus": "Vrishabha", "Gemini": "Mithuna", "Cancer": "Karka",
+        "Leo": "Simha", "Virgo": "Kanya", "Libra": "Tula", "Scorpio": "Vrishchika",
+        "Sagittarius": "Dhanu", "Capricorn": "Makara", "Aquarius": "Kumbha", "Pisces": "Meena"
+    }
+    PLANET_HINDI = {
+        "Sun": "Surya", "Moon": "Chandra", "Mars": "Mangal", "Mercury": "Budh",
+        "Jupiter": "Guru", "Venus": "Shukra", "Saturn": "Shani", "Rahu": "Rahu", "Ketu": "Ketu"
+    }
+
     # 1. Fetch RAG rules
     rag_data = get_rag_rules_for_reading(chart, query_type, domain, ask_text)
     # 2. Format inputs for Prompt
     # Format Planets
     planets_str = []
     for p in chart.get("planets", []):
+        p_name = p['name']
+        p_label = f"{p_name} ({PLANET_HINDI.get(p_name, p_name)})"
+        s_name = p['sign']
+        s_label = f"{s_name} ({SIGN_HINDI.get(s_name, s_name)})"
         retro = " (Retrograde)" if p.get("retrograde") else ""
         planets_str.append(
-            f"- {p['name']}: {p['sign']} at {p['degree']}° in House {p['house']}{retro}, Nakshatra {p['nakshatra']} (Pada {p['pada']})"
+            f"- {p_label}: {s_label} at {p['degree']}° in House {p['house']}{retro}, Nakshatra {p['nakshatra']} (Pada {p['pada']})"
         )
     planets_data_text = "\n".join(planets_str)
     
@@ -340,7 +354,7 @@ def generate_reading_with_groq(
     elif language.lower() == "hinglish":
       lang_instruction = "You MUST write all output fields (title, summary, body, remedy) in conversational Hinglish (Hindi written using the Latin/English alphabet). Use natural colloquial phrasing (like 'aapki kundli mein', 'saal ke ant tak', 'shubh yog ban raha hai', 'gussa control karna hoga') rather than formal literal translations, and keep classical Vedic nouns intact."
     else:
-      lang_instruction = "You MUST write all output fields in English."
+      lang_instruction = "You MUST write all output fields in English. ALWAYS include the traditional Hindi/Sanskrit terms in brackets alongside English terms for planets and signs (e.g., 'Sun (Surya)', 'Jupiter (Guru)', 'Saturn (Shani)', 'Mars (Mangal)', 'Venus (Shukra)', 'Mercury (Budh)', 'Moon (Chandra)', 'Aries (Mesha)', 'Taurus (Vrishabha)', 'Gemini (Mithuna)', 'Cancer (Karka)', 'Leo (Simha)', 'Virgo (Kanya)', 'Libra (Tula)', 'Scorpio (Vrishchika)', 'Sagittarius (Dhanu)', 'Capricorn (Makara)', 'Aquarius (Kumbha)', 'Pisces (Meena)')."
         
     system_prompt = f"""You are an expert Vedic astrology (Jyotish) interpreter. Your task is to generate a personalized reading based strictly on the user's birth chart details and the provided classical rules.
 
@@ -351,7 +365,7 @@ CONSTRAINTS & RULES:
 4. Use probability language, such as 'this period may indicate', 'there could be inclinations toward', or 'it is favorable to'. Never say 'this will definitely cause' or make absolute predictions.
 5. You MUST end with exactly one actionable remedy or insight.
 6. Word Limit: The reading body must be maximum {word_limit} words.
-7. Explain any Vedic terms (e.g. Lagna, Dasha, Rashi, Yoga) briefly the first time you use them.
+7. Explain any Vedic terms briefly the first time you use them, and ALWAYS include the Hindi/Sanskrit terms in brackets alongside English names for planets and signs (e.g. 'Sun (Surya)', 'Leo (Simha)').
 8. {lang_instruction}
 9. Return output strictly in JSON format as specified. Do not include any text outside the JSON object.
 
@@ -364,8 +378,11 @@ JSON OUTPUT SCHEMA:
   "sources": ["Array of source texts actually referenced in the reading, e.g. ['BPHS Ch.3 v.14', 'Saravali Ch.16 v.8']"]
 }}"""
 
+    lagna_raw = chart.get('lagna', {}).get('sign')
+    lagna_display = f"{lagna_raw} ({SIGN_HINDI.get(lagna_raw, lagna_raw)})" if lagna_raw else "Unknown"
+
     user_prompt = f"""--- USER BIRTH CHART INFO ---
-Lagna: {chart.get('lagna', {}).get('sign')} at {chart.get('lagna', {}).get('degree')}°
+Lagna: {lagna_display} at {chart.get('lagna', {}).get('degree')}°
 Current Dasha: {dasha_text}
 
 Planetary Positions:
